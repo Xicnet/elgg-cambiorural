@@ -21,6 +21,9 @@ function cambiorural_init() {
 	// Register Group Event Handlers
 	// #24 -> turn email notification on for group
 	register_elgg_event_handler('join','group', 'cambiorural_join_group');
+
+	// Run One-Time Setup
+	run_function_once('cambiorural_run_once');
 }
 
 function cambiorural_test($hook, $type, $value, $params) {
@@ -102,3 +105,9 @@ function cambiorural_update_subscriptions() {
 // when user leaves group, stop notifications
 // should be un-necessary
 //function cambiorural_leave_group_hook() {}
+
+function cambiorural_runonce() {
+
+	// Disable user registration
+	set_config('disable_registration', true);
+}
