@@ -48,7 +48,7 @@ function cambiorural_join_group($event, $type, $object) {
 function cambiorural_page_handler($page) {
 
 	switch($page[0]) {
-	case 'upsub':
+	case '24':
 		// #24: update email notification for all users in all groups
 		if (isadminloggedin()) {
 			cambiorural_update_subscriptions();
