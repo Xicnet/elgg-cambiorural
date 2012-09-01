@@ -57,7 +57,6 @@ function cambiorural_page_handler($page) {
 	default: break;
 	}
 
-	forward();
 }
 
 function cambiorural_update_subscriptions() {
