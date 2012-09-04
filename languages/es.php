@@ -5,7 +5,7 @@
 $spanish = array(
 				 # 15: change tags to palabras claves
 				 'tag'      => 'palabra clave',
-				 'tags'     => 'Palabras claves';
+				 'tags'     => 'Palabras claves',
 				 );
 
 add_translation('es', $spanish);
