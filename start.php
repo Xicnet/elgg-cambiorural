@@ -22,8 +22,12 @@ function cambiorural_init() {
 	// #24 -> turn email notification on for group
 	elgg_register_event_handler('join','group', 'cambiorural_join_group');
 
+	// Run on upgrades
+	elgg_register_event_handler('upgrade', 'upgrade', 'cambiorural_run_upgrades');
+
 	// Run One-Time Setup
 	run_function_once('cambiorural_run_once');
+
 }
 
 function cambiorural_test($hook, $type, $value, $params) {
@@ -114,8 +118,8 @@ function cambiorural_run_once() {
 		}
 
 		// configure site
-		$site->name  = 'Red Cambio Rural';
-		$site->email = 'no-reply@cambiorural.xicnet.com';
+		$site->name        = 'Red Cambio Rural';
+		$site->email       = 'no-reply@cambiorural.xicnet.com';
 		$site->description = 'La red social del sector agrícola Argentino';
 		$site->save();
 
@@ -126,147 +130,127 @@ function cambiorural_run_once() {
 		set_config('allow_registration', FALSE, $site->getGUID());
 
 		// disable public views
-      	 set_config('walled_garden', TRUE, $site->getGUID());
+		set_config('walled_garden', TRUE, $site->getGUID());
 
 		// enforce default accesses on all users
 		set_config('allow_user_default_access', FALSE, $site->getGUID());
 
-		// disable unwanted plugins
-		$disabled = array(
-			'admins',
-			'audio_html5',
-			'blog',
-			'bookmarks',
-// 'cambiorural',
-// 'cambiorural_theme',
-			'categories',
-			'custom_index',
-			'custom_index_widgets',
-			'dashboard',
-			'developers',
-			'diagnostics',
-			'dokuwiki',
-			'elggpg',
-			'embed',
-			'etherpad',
-			'externalpages',
-			'file',
-			'friendrequests',
-			'garbagecollector',
-			'group_alias',
-			'group_operators',
-			'groups',
-			'habitorio_theme',
-			'htmlawed',
-			'identica',
-			'infinite_scroll',
-			'invitefriend',
-			'languages',
-			'likes',
-			'logbrowser',
-			'logrotate',
-			'magic_topbar',
-			'member',
-			'messageboard',
-			'messages',
-			'minify',
-			'notification',
-			'oauth_api',
-			'online',
-			'opensearch',
-			'pages',
-			'powered',
-			'profile',
-			'purity_theme',
-			'registrationterms',
-			'relatedgroup',
-			'reportedcontent',
-			'river_privacy',
-			'search',
-			'simple_faq',
-			'spotlight',
-			'subgroups',
-			'suicide',
-			'tagcloud',
-			'thewire',
-			'tinymce',
-			'translation_editor',
-			'twitter',
-			'twitter_api',
-			'uservalidationbyemail',
-			'videolist',
-			'zaudio',
-		);
-		foreach ($disabled AS $plugin) {
-			disable_plugin($plugin);
-		}
-
-		// enable plugins
-		$enabled = array(
-						 'developers',
-						 'htmlawed',
-						 'uservalidationbyemail',
-						 'reportedcontent',
-						 'search',
-						 'tagcloud',
-						 'thewire',
-						 'pages',
-						 'informes',
-						 'garbagecollector',
-						 'friendrequest',
-						 'groups',
-						 'group_alias',
-						 'group_operators',
-						 'subgroups',
-						 'relatedgroups',
-						 'members',
-						 'dokuwiki',
-						 'file',
-						 'embed',
-						 'dashboard',
-						 'profile',
-						 'messages',
-						 'notifications',
-						 'elggman',
-						 'tasks',
-						 'threads',
-						 'linkup',
-						 'river_privacy',
-						 'languages',
-						 'cambiorural',
-						 'cambiorural_theme',
-		);
-
-		foreach ($enabled AS $plugin_name) {
-			$plugin = elgg_get_plugin_from_id($plugin_name);
-			if ($plugin) {
-				$plugin->enable();
-				$plugin->setPriority('last');
-				$plugin->activate();
-			} 
-
-		}
-	
-		// configure site menu
-		$custom_menu_items   = array();
-		//	   $custom_menu_items['Inicio'] = '/dashboard/[username]';
-		//$custom_menu_items['Perfil'] = '/profile/[username]';
-		//$custom_menu_items['Correo'] = '/message/inbox/[username]';
-		//$custom_menu_items['Amigxs'] = '/friends/[username]';
-		//		$custom_menu_items['Grupos'] = '/groups/all';
-		//		$custom_menu_items['Herramientas'] = '#';
-
-		elgg_save_config('site_custom_menu_items', $custom_menu_items);
-
-		$featured_menu_names = array();
-		$featured_menu_names[] = 'dashboard';
-		$featured_menu_names[] = 'profile';
-		$featured_menu_names[] = 'messages';
-		$featured_menu_names[] = 'friends';
-		$featured_menu_names[] = 'groups';
-
-		elgg_save_config('site_featured_menu_names', $featured_menu_names);
-
+		// Run regular upgrades
+		cambiorural_run_upgrades();
 	}
 
 }
+
+// Run on upgrades
+function cambiorural_run_upgrades() {
+
+	error_log('cambiorural_run_upgrades starting...');
+
+	// disable all plugins
+	$plugins = elgg_get_plugins('active');
+	foreach ($plugins AS $plugin) {
+		error_log("cambiorural_run_upgrades disable  $plugin->title");
+		if ('cambiorural' == $plugin->title) {
+			// do not disable ourself!
+			continue;
+		}
+		$plugin->deactivate();
+		$plugin->disable();
+		$plugin->setPriority('top');
+		error_log("cambiorural_run_upgrades DISABLED $plugin->title");
+	}
+
+	// enable plugin cambiorural (do not activate :P )
+	$cambiorural = elgg_get_plugin_by_id('cambiorural');
+	if ($cambiorural) {
+		$cambiorural->enable();
+	}
+
+	// enable plugins in order
+	// 1. developers goes first
+    // 2. htmlawed
+    // 3. stuff that does not depend on anything
+    // 4. thewire
+    // 5. pages
+    // 6. dependencies on page
+    // 7. groups
+    // 8. dependencies on groups
+    // 9. languages
+    // 10. cambiorural
+    // 11. last: cambiorural_theme
+	$enabled = array(
+					 'developers',
+					 'htmlawed',
+					 'uservalidationbyemail',
+					 'reportedcontent',
+					 'search',
+					 'tagcloud',
+					 'thewire',
+					 'pages',
+					 'informes',
+					 'garbagecollector',
+					 'friendrequest',
+					 'groups',
+					 'group_alias',
+					 'group_operators',
+					 'subgroups',
+					 'relatedgroups',
+					 'members',
+					 'dokuwiki',
+					 'file',
+					 'embed',
+					 'dashboard',
+					 'profile',
+					 'messages',
+					 'informe',
+					 'notifications',
+					 'elggman',
+					 'tasks',
+					 'threads',
+					 'linkup',
+					 'river_privacy',
+					 'menu_builder',
+					 // those must come last!
+					 'languages',
+					 'cambiorural',
+					 'cambiorural_theme',
+					 );
+
+	foreach ($enabled AS $plugin_name) {
+		error_log("cambiorural_run_upgrades enable  $plugin_name");
+   		$plugin = elgg_get_plugin_from_id($plugin_name);
+		if ($plugin) {
+			$plugin->enable();
+			$plugin->setPriority('last');
+			if ($plugin->activate_on_install) {
+				error_log("cambiorural_run_upgrades activate $plugin_name");
+				$plugin->activate();
+			}
+			error_log("cambiorural_run_upgrades ENABLED  $plugin_name");
+		}
+
+	}
+
+	// configure site menu
+	$custom_menu_items   = array();
+	//	   $custom_menu_items['Inicio'] = '/dashboard/[username]';
+	//$custom_menu_items['Perfil'] = '/profile/[username]';
+	//$custom_menu_items['Correo'] = '/message/inbox/[username]';
+	//$custom_menu_items['Amigxs'] = '/friends/[username]';
+	//		$custom_menu_items['Grupos'] = '/groups/all';
+	//		$custom_menu_items['Herramientas'] = '#';
+
+	elgg_save_config('site_custom_menu_items', custom_menu_items);
+
+	$featured_menu_names = array();
+	$featured_menu_names[] = 'dashboard';
+	$featured_menu_names[] = 'profile';
+	$featured_menu_names[] = 'messages';
+	$featured_menu_names[] = 'friends';
+	$featured_menu_names[] = 'groups';
+
+	elgg_save_config('site_featured_menu_names', $featured_menu_names);
+
+	sleep(20);
+}
+
