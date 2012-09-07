@@ -16,15 +16,14 @@ function cambiorural_init() {
 	// Register Tests
 
 	// Register PageHandler
-	register_page_handler('cambiorural', 'cambiorural_page_handler');
+	elgg_register_page_handler('cambiorural', 'cambiorural_page_handler');
 
 	// Register Group Event Handlers
 	// #24 -> turn email notification on for group
-	register_elgg_event_handler('join','group', 'cambiorural_join_group');
+	elgg_register_event_handler('join','group', 'cambiorural_join_group');
 
 	// Run One-Time Setup
 	run_function_once('cambiorural_run_once');
-	//	cambiorural_run_once();
 }
 
 function cambiorural_test($hook, $type, $value, $params) {
