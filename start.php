@@ -161,7 +161,7 @@ function cambiorural_run_upgrades() {
 	}
 
 	// enable plugin cambiorural (do not activate :P )
-	$cambiorural = elgg_get_plugin_by_id('cambiorural');
+	$cambiorural = elgg_get_plugin_from_id('cambiorural');
 	if ($cambiorural) {
 		$cambiorural->enable();
 	}
