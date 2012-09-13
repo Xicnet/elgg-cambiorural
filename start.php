@@ -8,7 +8,7 @@
  * 
  */
 
-register_elgg_event_handler('init', 'system', 'cambiorural_init');
+elgg_register_event_handler('init', 'system', 'cambiorural_init');
 
 function cambiorural_init() {
 	// Register Library
