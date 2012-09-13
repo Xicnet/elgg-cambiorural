@@ -240,7 +240,7 @@ function cambiorural_run_upgrades() {
 	//		$custom_menu_items['Grupos'] = '/groups/all';
 	//		$custom_menu_items['Herramientas'] = '#';
 
-	elgg_save_config('site_custom_menu_items', custom_menu_items);
+	elgg_save_config('site_custom_menu_items', $custom_menu_items);
 
 	$featured_menu_names = array();
 	$featured_menu_names[] = 'dashboard';
