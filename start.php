@@ -5,12 +5,15 @@
  * This plugin contains minor changes to the main system to tailor the
  * functionality to follow the project's policy.
  *
- * 
+ *
  */
 
 elgg_register_event_handler('init', 'system', 'cambiorural_init');
 
 function cambiorural_init() {
+	// Set locale for dates
+// js?	@setlocale(LC_TIME, 'es_AR');
+
 	// Register Library
 
 	// Register Tests
@@ -23,7 +26,7 @@ function cambiorural_init() {
 	elgg_register_event_handler('join','group', 'cambiorural_join_group');
 
 	// Run on upgrades
-	elgg_register_event_handler('upgrade', 'upgrade', 'cambiorural_run_upgrades');
+	elgg_register_event_handler('upgrade', 'system', 'cambiorural_run_upgrades');
 
 	// Run One-Time Setup
 	run_function_once('cambiorural_run_once');
@@ -146,6 +149,7 @@ function cambiorural_run_upgrades() {
 
 	error_log('cambiorural_run_upgrades starting...');
 
+/**
 	// disable all plugins
 	$plugins = elgg_get_plugins('active');
 	foreach ($plugins AS $plugin) {
@@ -154,17 +158,17 @@ function cambiorural_run_upgrades() {
 			// do not disable ourself!
 			continue;
 		}
-		$plugin->deactivate();
+//		$plugin->deactivate();
 		$plugin->disable();
 		$plugin->setPriority('top');
 		error_log("cambiorural_run_upgrades DISABLED $plugin->title");
 	}
-
+*/
 	// enable plugin cambiorural (do not activate :P )
-	$cambiorural = elgg_get_plugin_from_id('cambiorural');
-	if ($cambiorural) {
-		$cambiorural->enable();
-	}
+//	$cambiorural = elgg_get_plugin_from_id('cambiorural');
+//	if ($cambiorural) {
+//		$cambiorural->enable();
+//	}
 
 	// enable plugins in order
 	// 1. developers goes first
@@ -212,8 +216,8 @@ function cambiorural_run_upgrades() {
 					 'menu_builder',
 					 // those must come last!
 					 'languages',
-					 'cambiorural',
-					 'cambiorural_theme',
+// do not run self			 'cambiorural',
+//					 'cambiorural_theme',
 					 );
 
 	foreach ($enabled AS $plugin_name) {
@@ -222,14 +226,18 @@ function cambiorural_run_upgrades() {
 		if ($plugin) {
 			$plugin->enable();
 			$plugin->setPriority('last');
-			if ($plugin->activate_on_install) {
-				error_log("cambiorural_run_upgrades activate $plugin_name");
-				$plugin->activate();
-			}
+			$plugin->activate();
 			error_log("cambiorural_run_upgrades ENABLED  $plugin_name");
 		}
 
 	}
+	// Activate these last
+	$plugin = elgg_get_plugin_from_id('cambiorural');
+	if ($plugin)
+		$plugin->setPriority('last');
+	$plugin = elgg_get_plugin_from_id('cambiorural_theme');
+	if ($plugin)
+		$plugin->setPriority('last');
 
 	// configure site menu
 	$custom_menu_items   = array();
@@ -243,14 +251,14 @@ function cambiorural_run_upgrades() {
 	elgg_save_config('site_custom_menu_items', $custom_menu_items);
 
 	$featured_menu_names = array();
-	$featured_menu_names[] = 'dashboard';
-	$featured_menu_names[] = 'profile';
-	$featured_menu_names[] = 'messages';
-	$featured_menu_names[] = 'friends';
-	$featured_menu_names[] = 'groups';
+//	$featured_menu_names[] = 'dashboard';
+//	$featured_menu_names[] = 'profile';
+//	$featured_menu_names[] = 'messages';
+//	$featured_menu_names[] = 'friends';
+//	$featured_menu_names[] = 'groups';
 
 	elgg_save_config('site_featured_menu_names', $featured_menu_names);
 
-	sleep(20);
+//	sleep(20);
 }
 
