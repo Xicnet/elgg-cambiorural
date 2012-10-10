@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin_manifest>
-        <field key="author" value="XICnet.com" />
-        <field key="version" value="1.7" />
-        <field key="description" value="Cambio Rural customization plugin" />
-        <field key="website" value="http://cambiorural.xicnet.com/" />
-        <field key="copyright" value="(C) XICnet.com 2012" />
-        <field key="licence" value="GNU Affero General Public License version 3 or later" />
-        <field key="elgg_version" value="2010030101" />
+<plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
+	<name>Cambio Rural Module</name>
+	<author>XICnet</author>
+	<version>1.0</version>
+	<category>application</category>
+	<description>
+		Custom modifications for the cambiorural project..
+	</description>
+	<website>http://cambiorural.xicnet.com</website>
+	<copyright>(C) 2011-2012 Lorea</copyright>
+	<license>GNU Affero General Public License, version 3 or later</license>
+	
+	<requires>
+		<type>elgg_release</type>
+		<version>1.8</version>
+	</requires>
 </plugin_manifest>
