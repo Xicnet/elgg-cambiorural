@@ -200,7 +200,6 @@ function cambiorural_run_upgrades() {
 					 'subgroups',
 					 'relatedgroups',
 					 'members',
-					 'dokuwiki',
 					 'file',
 					 'embed',
 					 'dashboard',
@@ -217,7 +216,7 @@ function cambiorural_run_upgrades() {
 					 // those must come last!
 					 'languages',
 // do not run self			 'cambiorural',
-//					 'cambiorural_theme',
+					 'cambiorural_theme',
 					 );
 
 	foreach ($enabled AS $plugin_name) {
