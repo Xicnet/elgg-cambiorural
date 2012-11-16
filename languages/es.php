@@ -76,7 +76,16 @@ $Spanish = array(
        'informe:widget:description' => 'Display your latest informe posts',
        'informe:more_informes' => 'More informe posts',
        'informe:numbertodisplay' => 'Number of informe posts to display',
-       'informe:noblogs' => 'No informe posts'
+       'informe:noblogs' => 'No informe posts',
+
+	   // admin
+	   'item:object:report_activity' => 'Actividades de cambio rural',
+	   'item:object:informe' => 'Informes mensuales',
+	   'item:object:image' => 'Imagines',
+	   'item:object:album' => 'Albums de Fotos',
+	   'item:object:announcement_page' => 'Paginas de anuncios',
+	   'item:object:report' => 'Objectos reportados',
+	   'item:object:announcement' => 'Anuncios',
 );
        
 add_translation('es', $Spanish);

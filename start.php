@@ -122,7 +122,7 @@ function cambiorural_run_once() {
 
 		// configure site
 		$site->name        = 'Red Cambio Rural';
-		$site->email       = 'no-reply@cambiorural.xicnet.com';
+		$site->email       = 'noresponder@magyp.gob.ar';
 		$site->description = 'La red social del sector agrícola Argentino';
 		$site->save();
 
@@ -239,24 +239,11 @@ function cambiorural_run_upgrades() {
 	if ($plugin)
 		$plugin->setPriority('last');
 
-	// configure site menu
+	// empty site menu
 	$custom_menu_items   = array();
-	//	   $custom_menu_items['Inicio'] = '/dashboard/[username]';
-	//$custom_menu_items['Perfil'] = '/profile/[username]';
-	//$custom_menu_items['Correo'] = '/message/inbox/[username]';
-	//$custom_menu_items['Amigxs'] = '/friends/[username]';
-	//		$custom_menu_items['Grupos'] = '/groups/all';
-	//		$custom_menu_items['Herramientas'] = '#';
-
 	elgg_save_config('site_custom_menu_items', $custom_menu_items);
 
 	$featured_menu_names = array();
-//	$featured_menu_names[] = 'dashboard';
-//	$featured_menu_names[] = 'profile';
-//	$featured_menu_names[] = 'messages';
-//	$featured_menu_names[] = 'friends';
-//	$featured_menu_names[] = 'groups';
-
 	elgg_save_config('site_featured_menu_names', $featured_menu_names);
 
 //	sleep(20);
