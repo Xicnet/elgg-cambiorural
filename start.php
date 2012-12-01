@@ -25,6 +25,9 @@ function cambiorural_init() {
 	// #24 -> turn email notification on for group
 	elgg_register_event_handler('join','group', 'cambiorural_join_group');
 
+	// #44 Register login page handler
+	elgg_register_event_handler('login:forward', 'user', 'cambiorural_login_forward');
+
 	// Run on upgrades
 	elgg_register_event_handler('upgrade', 'system', 'cambiorural_run_upgrades');
 
@@ -66,6 +69,16 @@ function cambiorural_page_handler($page) {
         break;
 	default: break;
 	}
+
+}
+
+function cambiorural_login_forward($hook, $type, $value, $params) {
+
+	if ($value === TRUE) {
+		return $value;
+	}
+
+	forward('/dashboard');
 
 }
 
