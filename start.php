@@ -34,6 +34,9 @@ function cambiorural_init() {
 	// Run One-Time Setup
 	run_function_once('cambiorural_run_once');
 
+	// Force the language strings override
+	register_translations(elgg_get_plugins_path() . "cambiorural/languages/");
+
 }
 
 function cambiorural_test($hook, $type, $value, $params) {
