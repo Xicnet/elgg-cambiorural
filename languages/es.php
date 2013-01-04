@@ -46,7 +46,7 @@ $Spanish = array(
        'informe:blog' => 'Informe',
        'item:object:blog' => 'Informes',
        
-       'informe:title:user_informes' => '%s\'s informes',
+       'informe:title:user_informes' => 'Informes del grupo %s',
        'informe:title:all_informes' => 'All site informes',
        'informe:title:friends' => 'Friends\' informes',
        
