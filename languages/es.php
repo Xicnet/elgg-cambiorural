@@ -127,7 +127,7 @@ $Spanish = array(
        'informe:widget:description' => 'Display your latest informe posts',
        'informe:more_informes' => 'More informe posts',
        'informe:numbertodisplay' => 'Number of informe posts to display',
-       'informe:noblogs' => 'No informe posts',
+       'informe:noblogs' => 'No hay informes',
 
 	   // admin
 	   'item:object:report_activity' => 'Actividades de cambio rural',
@@ -137,6 +137,12 @@ $Spanish = array(
 	   'item:object:announcement_page' => 'Paginas de anuncios',
 	   'item:object:report' => 'Objectos reportados',
 	   'item:object:announcement' => 'Anuncios',
+
+	'itemobjectannouncement' => 'Anuncios',
+	'friends' => "Amigos",
+	'groups:widget:membership' => 'Miembro de los grupos',
+	'activity' => 'Actividad',
+	'activity:activity' => 'Actividad',
 
 );
        
