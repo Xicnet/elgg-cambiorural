@@ -230,6 +230,11 @@ function cambiorural_run_upgrades() {
 					 'linkup',
 					 'river_privacy',
 					 'menu_builder',
+					 'advanced_statistics',
+					 'login_as',
+					 'galliMassmail',
+					 'widget_manager',
+					 'informe_export',
 					 // those must come last!
 					 'languages',
 // do not run self			 'cambiorural',
